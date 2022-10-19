@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
@@ -54,7 +55,10 @@ class CreateUser extends Command
 
             return Command::FAILURE;
         } else {
-            if ($user = User::create($validator->validated())) {
+            if ($user = User::create([
+                'login' => $validator->validated()['login'],
+                'password' => Hash::make($validator->validated()['password']),
+            ])) {
                 $this->info("User {$user->login} created!");
                 return Command::SUCCESS;
             } else {
