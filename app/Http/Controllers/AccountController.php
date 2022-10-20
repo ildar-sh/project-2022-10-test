@@ -7,12 +7,27 @@ use Illuminate\Http\Request;
 class AccountController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Create a new controller instance.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Show the application main page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {
-        return view('accounts.index');
+        $account = auth()->user()->account()->first();
+        $transactions = $account?->transactions()->latest()->limit(5)->get();
+        return view('accounts.index', [
+            'account' => $account,
+            'transactions' => $transactions,
+        ]);
     }
 }

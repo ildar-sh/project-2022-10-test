@@ -1,3 +1,6 @@
+@if(request()->ajax())
+    @yield('content')
+@else
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -49,9 +52,13 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('transactions') }}">{{ __('Transactions') }}</a>
+                            </li>
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
+                                    {{ Auth::user()->login }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -72,9 +79,10 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4" id="content">
             @yield('content')
         </main>
     </div>
 </body>
 </html>
+@endif

@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes([
     'register' => false,
     'reset' => false,
@@ -25,4 +21,5 @@ Auth::routes([
     'verify' => false,
 ]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\AccountController::class, 'index'])->name('home');
+Route::get('/transactions', [App\Http\Controllers\TransactionController::class, 'index'])->name('transactions');
